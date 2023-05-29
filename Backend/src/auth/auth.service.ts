@@ -16,7 +16,7 @@ export class AuthService {
     }
 
     async signup_board_member(user: any) {
-        // return this.usersService.create(user.username, user.password);
+        return this.userService.create_board_member(user.username, user.password, user.phone);
     }
 
     // async signup(user: any) {

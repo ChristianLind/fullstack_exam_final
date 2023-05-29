@@ -8,6 +8,7 @@ import { UserDTO } from './DTOs/user.dto';
 import { Tenant } from 'src/Entities/tenant';
 import { BoardMember } from 'src/Entities/boardmember';
 import * as bcrypt from 'bcrypt';
+import { Role } from './Role';
 
 //update "any" til "userentity"
 export type User = any;
@@ -92,12 +93,12 @@ export class UserService {
     //     return result;
     // }
 
-    async create_boardMember(username: string, password: string, email: string, phone: string) : Promise<BoardMember> {
-        const user: User = {username, password, phone};
-        
+    async create_board_member(username: string, password: string, phone: string) : Promise<BoardMember> {
+        const user: User = {username, password, role: Role.Admin};
+
         const savedUser = await this.userRepository.save(user);
-        const boardMember = { email, user: savedUser }
-        const savedBoardMember = await this.boardMemberRepository.save(boardMember);
+        const boardmember = { phone, user: savedUser }
+        const savedBoardMember = await this.boardMemberRepository.save(boardmember);
 
         return savedBoardMember;
     }
