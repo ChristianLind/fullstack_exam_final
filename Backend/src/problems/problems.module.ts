@@ -8,7 +8,7 @@ import { UserEntity } from 'src/Entities/user.entity';
 import { Tenant } from 'src/Entities/tenant';
 import { AuthModule } from 'src/auth/auth.module'; 
 import { BoardMember } from 'src/Entities/boardmember';
-import { HttpModule, HttpService } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
     imports:[TypeOrmModule.forFeature([Problem, UserEntity, Tenant, BoardMember]), AuthModule, HttpModule],

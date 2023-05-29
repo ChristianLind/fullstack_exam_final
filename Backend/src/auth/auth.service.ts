@@ -15,13 +15,13 @@ export class AuthService {
         return this.userService.create_tenant(user.username, user.password, user.email);
     }
 
-    
     async signup_board_member(user: any) {
         // return this.usersService.create(user.username, user.password);
     }
-    async signup(user: any) {
-        return this.userService.create(user);
-    }
+
+    // async signup(user: any) {
+    //     return this.userService.create(user);
+    // }
 
     async validateUser(username: string, password: string): Promise<any> {
         const user = await this.userService.findByUsername(username);
@@ -42,11 +42,9 @@ export class AuthService {
     }
 
     async login(user: any) {
-        //console.log(user);
         const payload = { 
             username: user.username, 
             id: user.id, 
-            //tenantId: user.tenant.id
         };
         return {
             access_token: this.jwtService.sign(payload),

@@ -18,13 +18,13 @@ export class UserService {
     @InjectRepository(Tenant) private tenantRepository: Repository<Tenant>,
     @InjectRepository(BoardMember) private boardMemberRepository: Repository<BoardMember>) {}
 
-    async findAll(): Promise<UserEntity[]> {
-        return await this.userRepository.find()
-    }
+    // async findAll(): Promise<UserEntity[]> {
+    //     return await this.userRepository.find()
+    // }
 
-    async findById(id: number): Promise<UserEntity> {
-        return await this.userRepository.findOneBy({id: id});
-    }
+    // async findById(id: number): Promise<UserEntity> {
+    //     return await this.userRepository.findOneBy({id: id});
+    // }
 
     async findOne(username: string): Promise<UserEntity> {
         const result = await this.userRepository.findOne({where: {username: username}, relations: {tenant: true}});
@@ -36,35 +36,35 @@ export class UserService {
         return await this.userRepository.findOneBy({username: username});
     }
 
-    // async create(user: UserDTO) : Promise<UserEntity> {
+    async create(user: UserDTO) : Promise<UserEntity> {
+        const newUser = user;
+        const hash = await bcrypt.hash(user.password, 10);
+        newUser.password = hash
+        return await this.userRepository.save(newUser)
+    }
+
+    // async create(user: UserDTO): Promise<UserEntity> {
     //     const newUser = user;
-    //     const hash = await bcrypt.hash(user.password, 10);
-    //     newUser.password = hash
-    //     return await this.userRepository.save(newUser)
+      
+    //     // Verify that the password is provided
+    //     if (user.password) {
+    //       const hash = await bcrypt.hash(user.password, 10);
+    //       newUser.password = hash;
+    //     } else {
+    //       throw new Error('Password is required.');
+    //     }
+      
+    //     return await this.userRepository.save(newUser);
+    //   }
+      
+
+    // async update(id: number, newProfile: UserDTO) : Promise<UpdateResult> {
+    //     return await this.userRepository.update(id, newProfile);
     // }
 
-    async create(user: UserDTO): Promise<UserEntity> {
-        const newUser = user;
-      
-        // Verify that the password is provided
-        if (user.password) {
-          const hash = await bcrypt.hash(user.password, 10);
-          newUser.password = hash;
-        } else {
-          throw new Error('Password is required.');
-        }
-      
-        return await this.userRepository.save(newUser);
-      }
-      
-
-    async update(id: number, newProfile: UserDTO) : Promise<UpdateResult> {
-        return await this.userRepository.update(id, newProfile);
-    }
-
-    async delete(id: number): Promise<DeleteResult> {
-        return await this.userRepository.delete(id)
-    }
+    // async delete(id: number): Promise<DeleteResult> {
+    //     return await this.userRepository.delete(id)
+    // }
 
     async create_tenant(username: string, password: string, email: string) : Promise<Tenant> {
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -77,22 +77,20 @@ export class UserService {
         return savedTenant;
     }
 
+    // async findRole(id: number) : Promise<User> {
+    //     const user: User = {id};
 
-
-    async findRole(id: number) : Promise<User> {
-        const user: User = {id};
-
-        const result = await this.tenantRepository.findOne({ 
-            where: 
-            {
-                id: user.id
-            }, relations: {
-                user: true
-            }
-        });
-        console.log("result", result);
-        return result;
-    }
+    //     const result = await this.tenantRepository.findOne({ 
+    //         where: 
+    //         {
+    //             id: user.id
+    //         }, relations: {
+    //             user: true
+    //         }
+    //     });
+    //     console.log("result", result);
+    //     return result;
+    // }
 
     async create_boardMember(username: string, password: string, email: string, phone: string) : Promise<BoardMember> {
         const user: User = {username, password, phone};

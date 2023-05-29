@@ -12,12 +12,12 @@ export class AuthController {
     return this.authService.login(req.user);
   }
   
-  @Post('auth/signup')
-  async signup(@Request2() req) {
-    //console.log("body", req.body);
+  // @Post('auth/signup')
+  // async signup(@Request2() req) {
+  //   //console.log("body", req.body);
     
-    return this.authService.signup(req.body);
-  }
+  //   return this.authService.signup(req.body);
+  // }
 
   @Post('auth/signup-tenant')
   async signup_tenant(@Request2() req) {
